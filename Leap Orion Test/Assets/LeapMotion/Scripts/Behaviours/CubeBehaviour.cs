@@ -4,7 +4,7 @@ using Leap;
 using Leap.Unity;
 
 
-//手の座標をとって箱をつくって作った箱の座標に手の座標を代入する奴
+//prefab化された箱の座標に手の座標を代入する奴
 
 public class CubeBehaviour : MonoBehaviour{
     LeapProvider provider;
@@ -12,24 +12,17 @@ public class CubeBehaviour : MonoBehaviour{
     private GameObject Controller;
     private GameObject CubePosition;
 
+    public GameObject cube;
    
 
     // Use this for initialization
     void Start()
     {
         provider = FindObjectOfType<LeapProvider>() as LeapProvider;
-        CubePosition = GameObject.Find("Cube");
+       
     }
 
-    private class MakeCube {
-        void OnCollisionEnter(Collision other)
-        {
-            if (other.gameObject.tag == "Cube")
-                GameObject.CreatePrimitive(PrimitiveType.Cube);
-        }
-        
-    }
-
+   
     // Update is called once per frame
     void Update()
     {
@@ -43,7 +36,8 @@ public class CubeBehaviour : MonoBehaviour{
           Vector handCenter = hand.PalmPosition;
             Vector3 HandPos = handCenter.ToVector3(); // Convert LeapScale to UnityScale
             Debug.Log(HandPos);
-
+             cube.transform.position = HandPos; 
+            
         if (hand.IsLeft)
         {
             transform.position = hand.PalmPosition.ToVector3() +
